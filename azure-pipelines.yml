@@ -12,7 +12,7 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '16.x'
   displayName: 'Install Node.js'
 
 - script: |
@@ -20,3 +20,19 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'lab20'
+    organization: 'learningdevops0717'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'lab20.prateek'
+    cliProjectName: 'lab20'
+    cliSources: '.'
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
+- task: SonarCloudAnalyze@1
